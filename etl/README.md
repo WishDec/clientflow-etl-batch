@@ -51,19 +51,22 @@ Batch Processing Flow:
 ## Project Structure
 
 
+## Project Structure
+
+```
 clientflow-etl-batch/
 │
 ├── etl/
-│ ├── extract.py
-│ ├── transform.py
-│ ├── load.py
+│   ├── extract.py
+│   ├── transform.py
+│   ├── load.py
 │
 ├── sql/
-│ ├── create_tables.sql
-│ ├── transformations.sql
+│   ├── create_tables.sql
+│   ├── transformations.sql
 │
 └── README.md
-
+```
 ---
 
 ## Status
