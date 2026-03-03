@@ -67,20 +67,23 @@ best_offer AS (
     GROUP BY dt, source, product_sku
 ),
 best_merchant AS (
-    SELECT
-        v.dt, v.source, v.product_sku,
-        v.merchant_id AS best_merchant_id
-    FROM valid_offers v
-    JOIN best_offer b
-      ON b.dt = v.dt
-     AND b.source = v.source
-     AND b.product_sku = v.product_sku
-     AND b.best_price_kzt = v.price_kzt
-    -- If multiple merchants tie for best price, pick one deterministically:
-    QUALIFY ROW_NUMBER() OVER (
-        PARTITION BY v.dt, v.source, v.product_sku
-        ORDER BY v.merchant_id
-    ) = 1
+    SELECT dt, source, product_sku, best_merchant_id
+    FROM (
+        SELECT
+            v.dt, v.source, v.product_sku,
+            v.merchant_id AS best_merchant_id,
+            ROW_NUMBER() OVER (
+                PARTITION BY v.dt, v.source, v.product_sku
+                ORDER BY v.merchant_id
+            ) AS rn
+        FROM valid_offers v
+        JOIN best_offer b
+          ON b.dt = v.dt
+         AND b.source = v.source
+         AND b.product_sku = v.product_sku
+         AND b.best_price_kzt = v.price_kzt
+    ) t
+    WHERE rn = 1
 ),
 agg AS (
     SELECT
