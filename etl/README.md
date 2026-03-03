@@ -47,10 +47,6 @@ Batch Processing Flow:
 - Structured Layered Architecture
 
 ---
-
-## Project Structure
-
-
 ## Project Structure
 
 ```
