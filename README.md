@@ -68,3 +68,51 @@ clientflow-etl-batch/
 ## Status
 
 This repository demonstrates ETL design and data architecture principles for batch analytics pipelines.
+
+## How to Use (Demo)
+
+This repository can be reviewed directly in the browser.
+
+If you run it locally (optional), the demo flow is:
+
+1) Extract demo CSV into raw-like records:
+- `etl/extract.py`
+
+2) Transform into staging (validation & normalization):
+- `etl/transform.py`
+
+3) Build daily analytics in-memory (mart-like output):
+- `etl/load.py`
+
+Demo input data:
+- `data/sample_offers.csv`
+
+SQL reference model:
+- `sql/create_tables.sql`
+- `sql/transformations.sql`
+
+---
+
+## Data Model (Layers)
+
+- `raw.marketplace_offers`  
+  Raw ingested marketplace offers (append-only, includes raw_payload)
+
+- `stg.offers_clean`  
+  Cleaned and validated offers with business date + validation flags
+
+- `mart.product_price_daily`  
+  Daily per-product metrics (best price, average, offers count)
+
+- `mart.price_anomalies`  
+  Example anomaly detection (sudden drops)
+
+---
+
+## What This Demonstrates
+
+- Batch ETL design (RAW → STG → MART)
+- Data validation rules (bad price handling)
+- Analytical modeling for pricing & margin use-cases
+- Production-like structure: readable modules + SQL transformations
+- ClientFlow domain alignment (pricing intelligence & profitability)
